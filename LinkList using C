@@ -1,0 +1,197 @@
+//This program demonstrates the linklist using c
+
+
+#include<stdio.h>
+#include<stdlib.h>
+struct Node
+{
+    int data;
+    struct Node *next;
+};
+
+void initNode(struct Node *tn)
+{
+    printf("\nENTER DATA : ");
+    scanf("%d",&tn->data);
+    tn->next = NULL;
+}
+
+struct Node* createNode()
+{
+    struct Node *t;
+    t= (struct Node*)malloc(sizeof(struct Node));
+    return t;
+}
+
+
+//==============================================
+void attachBegin(struct Node **hptr,struct Node *tn)
+{
+    if(*hptr==NULL)
+    {
+        *hptr=tn;
+    }
+    else
+    {
+        tn->next = *hptr;
+        *hptr = tn;
+    }
+}
+//==============================================
+void traverse(struct Node *hptr)
+{
+    if(hptr==NULL)
+        printf("\nLIST IS EMPTY ");
+    else
+    {
+        struct Node *cn;
+        cn = hptr;
+        while(cn!=NULL)
+        {
+            printf("\n%d",cn->data);
+            cn=cn->next;
+        }
+    }
+}
+//==============================================
+void attachEnd(struct Node **hptr , struct Node *tn)
+{
+    struct Node *cn;
+    cn = *hptr;
+    if(cn == NULL)
+     {
+      *hptr = tn;printf("hi");
+     }
+    else
+    {
+        while(cn->next != NULL)
+        {
+            cn=cn->next;
+        }
+        cn->next = tn;
+    }
+
+
+}
+//==============================================
+void deleteFirst(struct Node **hptr)
+{
+    if(*hptr == NULL)
+        printf("\nLIST ALREADY EMPTY\n");
+    else
+    {
+        struct Node *tn;
+        tn = *hptr;
+        *hptr = tn->next;
+        free(tn);
+    }
+}
+//==============================================
+void deleteEnd(struct Node **hptr)
+{
+    struct Node *tn,*pn;
+            tn = *hptr;
+    if(*hptr == NULL)
+        printf("\nLIST ALREADY EMPTY\n");
+    else
+        if(tn->next == NULL)
+            *hptr = NULL;
+        else
+        {
+
+            while(tn->next != NULL)
+            {
+                pn = tn ;
+                tn = tn->next;
+            }
+            pn->next = NULL;
+
+        }
+        free(tn);
+}
+//==============================================
+void attachMiddle(struct Node **hptr,struct Node *tn,int key)
+{
+    struct Node *cn;
+    cn=*hptr;
+    int ch=0,node_detect;
+    if(cn->next == NULL)
+    {
+        printf("\nNO LIST IS FOUND DO TOU WANT TO ATTACH AT  BEGIN\n\tIF YES ENTER 1 ELSE 0\n");
+        scanf("%d",&ch);
+        if(ch == 1)
+        {
+           *hptr = tn;
+           printf("\nNODE ATTACHED SUCCESSFULLY\n");
+        }
+        else
+            printf("\nNODE NOT ATTACHED\n");
+    }
+    else
+    {
+        while(cn->next != NULL)
+        {
+            if(cn->data == key)
+             {
+                 node_detect = 1;
+                 break;
+             }
+            else
+                cn = cn->next;
+        }
+    }
+
+    if(node_detect == 1)
+    {
+        tn->next = cn->next;
+        cn->next = tn;
+        printf("\nNODE ATTACHED SUCCESSFULLY\n");
+    }
+    else
+        printf("\nSPECIFIED NODE NOT FOUND\n");
+}
+//==============================================
+
+//==============================================
+int main()
+{
+    struct Node *head=NULL;
+    struct Node *temp=NULL;
+    int ch;
+
+    printf("\nENTER \t1 : CREATE NODE \n\t2 : ATTACH BEGIN\n\t3 : ATTACH END\n\t4 : DELETE FIRST\n\t5 : DELETE END\n\t6 : ATTACH MIDDLE\n\t9 : TRAVERSE\n\t");
+    scanf("%d",&ch);
+    while(ch!=0)
+    {
+        if(ch == 1 )
+        {
+            temp = createNode();
+            initNode(temp);
+        }
+        if(ch == 2)
+        {
+            attachBegin(&head,temp);
+        }
+        if(ch == 3)
+            attachEnd(&head,temp);
+        if(ch == 4)
+            deleteFirst(&head);
+        if(ch == 5)
+            deleteEnd(&head);
+        if(ch == 6)
+            attachMiddle(&head,temp,25);
+
+        if(ch == 9)
+            traverse(head);
+
+
+        printf("\nENTER \t1 : CREATE NODE \n\t2 : ATTACH BEGIN\n\t3 : ATTACH END\n\t4 : DELETE FIRST\n\t5 : DELETE END\n\t6 : ATTACH MIDDLE\n\t9 : TRAVERSE\n\t");
+    scanf("%d",&ch);
+
+    }
+
+   // attachBegin(&head,temp);
+    traverse(head);
+
+    return 0;
+}
