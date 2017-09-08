@@ -1,0 +1,222 @@
+//This program demonstrates linklist using java
+
+import java.util.Scanner;
+
+interface List
+{
+    public void addFirst(int item);
+    public void addEnd(int item);
+    public void addMiddle(int item, int key);
+    public void deleteFirst();
+    public void deleteEnd();
+    public void deleteMiddle(int key);
+}
+
+class Link
+{
+    public int data;
+    public Link next;
+    public Link(int data)
+    {
+        this.data = data;
+        //next = '\0';
+    };
+    public void displayLink()
+    {
+        System.out.print("\nDATA : "+this.data);
+    }
+};
+
+class LinkListApp implements List
+{
+    private Link First;
+    void LinkList()
+    {
+        First = null;
+    }
+    public boolean isEmpty()
+    {
+        return(First == null);
+    }
+
+    public void addFirst(int item)
+    {
+        Link L = new Link(item);
+        L.next = First;
+        First = L;
+
+    }
+
+    public void deleteFirst()
+    {
+        First = First.next;
+             System.out.print("\nNODE DELETED SUCCESSFULLY");
+        sop("\nNODE DELETED SUCCESSFULLY");
+    }
+
+    public void addMiddle(int item ,int key)
+    {
+        Link L = new Link(item);
+        Link current = First ;
+        int flag = 0;
+
+        while(current != null)
+        {
+            if(current.data == key)
+            {
+                flag = 1 ;sop("DATA FOUND");
+                break;
+            }
+            else
+                current = current.next;
+        }
+        if(flag == 1)
+        {
+            L.next = current.next;
+            current.next = L;
+        }
+    }
+    //========================================================
+    public void deleteMiddle(int key)
+    {
+        //Link L = new Link(item);
+        Link current = First ;
+        Link previous = current;
+        int flag = 0;
+
+        while(current != null)
+        {
+            if(current.data == key)
+            {
+                flag = 1 ;sop("DATA FOUND");
+                break;
+            }
+            else
+            {
+                previous = current;
+                current = current.next;
+            }
+
+        }
+        if(flag == 1)
+        {
+           previous.next = current.next;
+        }
+    }
+    //=========================================================
+
+    public void addEnd(int item)
+    {
+        Link L = new Link(item);
+        if(First == null)
+        {
+            L.next = First;
+            First = L ;
+        }
+        else
+        {
+            Link current = First;
+
+            while (current.next != null)
+              {
+                  current = current.next;
+              }
+
+            current.next = L;
+            sop("\nNODE ATTACHED SUCCESSFULLY");
+        }
+    }
+
+    public void deleteEnd()
+    {
+            Link current = First;
+            Link previous = First;
+         while(current.next != null)
+         {
+             previous = current;
+             current = current.next;
+         }
+         previous.next = null;
+    }
+
+
+
+    public void displayList()
+    {
+        Link current = First;
+        while (current != null)
+        {
+            current.displayLink();
+            current = current.next;
+        }
+    }
+
+    public void sop(String s)
+    {
+        System.out.print(s);
+    }
+};
+
+class LinkList
+{
+    public static void main(String args[])
+    {
+        System.out .print("\nENTER 1 TO ENTER : ");
+        Scanner sc = new Scanner(System.in);
+        int c = sc.nextInt(),item,key;
+        if(c == 1)
+        {
+            LinkListApp l = new LinkListApp();
+            do
+            {
+                l.sop("\nENTER\n\t0 : EXIT\n\t1 : addFirst\n\t2 : displayList\n\t3 : deleteFirst\n\t4 : addEnd\n\t5 : addMiddle\n\t6 : deleteMiddle\n\t7 : deleteEnd\n\tENTER YOUR CHOICE : ");
+                c = sc.nextInt();
+                if(c == 1)
+                {
+                    l.sop("\nENTER DATA TO STORE : ");
+                    item = sc.nextInt();
+                     l.addFirst(item);
+                }
+                if(c == 2 )
+                {
+                    l.displayList();
+                }
+                if( c == 3)
+                {
+                    l.deleteFirst();
+                }
+                if(c == 4)
+                {
+                    l.sop("\nENTER DATA TO STORE : ");
+                    item = sc.nextInt();
+                    l.addEnd(item);
+                }
+                if(c == 5)
+                {
+                    l.sop("ENTER DATA TO STORE : ");
+                    item = sc.nextInt();
+                    l.sop("ENTER KEY : ");
+                    key = sc.nextInt();
+                    l.addMiddle(item,key);
+
+                }
+                if(c == 6)
+                {
+                    l.sop("ENTER KEY : ");
+                    key = sc.nextInt();
+                    l.deleteMiddle(key);
+                }
+                if(c == 7)
+                {
+                    l.deleteEnd();
+                }
+            }while(c != 0);
+        }
+
+
+
+
+       // l.displayLink();
+    };
+
+};
