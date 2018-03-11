@@ -27,18 +27,13 @@ SYSOUT=* specifies to send system output messages to the Job Entry Subsystem (JE
 SYSIN
 DD * is another input statement. It specifies that what follows is data or control statements. In this case, it is the sort instruction telling the SORT program which fields of the SORTIN data records are to be sorted.
 "The Big Three" JCL statements: JOB, EXEC, and DD
-
 All jobs require the three main types of JCL statements: JOB, EXEC, and DD. A job defines a specific workload for z/OS to process. A job is a separately executable unit of work defined by a user, and run by a computer. This representation of a unit of work consists of one program or a set of programs, files, and control statements.
-
 Some z/OS users use the older term JCL card instead of JCL statement, because JCL used to be submitted to the system in the form of punched cards. Now JCL resides in storage (data sets) rather than on punched cards.
-
 Because JCL was originally designed for punched cards, the details of coding JCL statements can be complicated. However, the general concepts are quite simple, and most jobs can be run using a very small subset of these control statements.
-
 JCL has three basic statements:
 JOB
 Labels the unit of work that you want the system to perform, by providing a name (jobname). The JOB statement can optionally include accounting information and parameters that apply to the entire job.
 A job stream, or input stream, consists of one or more jobs that are submitted to the system in a sequence. You can submit jobs to z/OS through either TSO or ISPF.
-
 EXEC
 Provides the name of an application program or JCL procedure (sometimes called a "proc") that the system is to run (or execute). A single job may contain multiple EXEC statements. Each EXEC statement within the same job is a job step.
 DD
