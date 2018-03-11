@@ -1,0 +1,46 @@
+Q. What is JCL? List and Explain Component of JCL with example.
+Answer: 
+  For every job that you submit, you need to tell z/OS® where to find the appropriate input, how to process that input, and what to do with the resulting output. You use job control language (JCL) to convey this information to z/OS through a set of statements known as job control statements.
+While application programmers need some knowledge of JCL, the production control analyst must be highly proficient with JCL, to create, monitor, correct and rerun the company's daily batch workload.
+The set of job control statements is quite large, which allows you to provide a great deal of information to z/OS. Most jobs, however, can be run using a very small subset of these control statements. Once you become familiar with the characteristics of the jobs you typically run, you may find that you need to know the details of only some of the control statements.
+The following JCL example represents a job that performs the same functions as the TSO commands outlined in Figure 3.
+//MYJOB     JOB 1
+//MYSORT    EXEC PGM=SORT
+//SORTIN    DD DISP=SHR,DSN=ZPROF.AREA.CODES
+//SORTOUT   DD SYSOUT=*
+//SYSOUT    DD SYSOUT=*
+//SYSIN     DD *
+SORT FIELDS=(1,3,CH,A)
+/*
+Each JCL DD statement is equivalent to the TSO ALLOCATE command. Both are used to associate a z/OS data set with a ddname, which is recognized by the program as an input or output. The difference in method of execution is that TSO executes the sort in the foreground while JCL is used to execute the sort in the background.
+When submitted for execution:
+MYJOB
+Is a jobname the system associates with this workload.
+MYSORT
+Is the stepname, which instructs the system to execute the SORT program.
+SORTIN
+On the DD statement, SORTIN is the ddname. The SORTIN ddname is coded in the SORT program as a program input. The data set name (DSN) on this DD statement is ZPROF.AREA.CODES. The data set can be shared (DISP=SHR) with other system processes. The data content of ZPROF.AREA.CODES is SORT program input.
+SORTOUT
+This ddname is the SORT program output.
+SYSOUT
+SYSOUT=* specifies to send system output messages to the Job Entry Subsystem (JES) print output area. It is possible to send the output to a data set.
+SYSIN
+DD * is another input statement. It specifies that what follows is data or control statements. In this case, it is the sort instruction telling the SORT program which fields of the SORTIN data records are to be sorted.
+"The Big Three" JCL statements: JOB, EXEC, and DD
+
+All jobs require the three main types of JCL statements: JOB, EXEC, and DD. A job defines a specific workload for z/OS to process. A job is a separately executable unit of work defined by a user, and run by a computer. This representation of a unit of work consists of one program or a set of programs, files, and control statements.
+
+Some z/OS users use the older term JCL card instead of JCL statement, because JCL used to be submitted to the system in the form of punched cards. Now JCL resides in storage (data sets) rather than on punched cards.
+
+Because JCL was originally designed for punched cards, the details of coding JCL statements can be complicated. However, the general concepts are quite simple, and most jobs can be run using a very small subset of these control statements.
+
+JCL has three basic statements:
+JOB
+Labels the unit of work that you want the system to perform, by providing a name (jobname). The JOB statement can optionally include accounting information and parameters that apply to the entire job.
+A job stream, or input stream, consists of one or more jobs that are submitted to the system in a sequence. You can submit jobs to z/OS through either TSO or ISPF.
+
+EXEC
+Provides the name of an application program or JCL procedure (sometimes called a "proc") that the system is to run (or execute). A single job may contain multiple EXEC statements. Each EXEC statement within the same job is a job step.
+DD
+Identifies input and output to the program or procedure on the EXEC statement. Each DD (data definition) statement links a data set or other I/O device or function to a name (ddname) coded in the program. DD statements are associated with a particular job step.
+Two special DD statements, JOBLIB DD and STEPLIB DD, identify the location of the program or procedure on the EXEC statement. z/OS automatically searches standard system libraries, so you need to code these special DD statements in your JCL only when your program or procedure resides in a private library.
